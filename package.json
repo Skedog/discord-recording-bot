@@ -1,0 +1,21 @@
+{
+	"name": "discord-recording-bot",
+	"version": "1.0.0",
+	"description": "A Discord bot that uses slash commands to record voice chats!",
+	"main": "app.js",
+	"scripts": {
+		"start": "node app.js"
+	},
+	"author": "Skedog <skedog@skedog.com>",
+	"license": "MIT",
+	"dependencies": {
+		"@discordjs/opus": "github:discordjs/opus",
+		"@discordjs/voice": "^0.14.0",
+		"audio-mixer": "^2.1.4",
+		"discord.js": "^14.7.1",
+		"fluent-ffmpeg": "^2.1.2",
+		"googleapis": "^110.0.0",
+		"libsodium-wrappers": "^0.7.10",
+		"prism-media": "file:dependencies/prism-media"
+	}
+}

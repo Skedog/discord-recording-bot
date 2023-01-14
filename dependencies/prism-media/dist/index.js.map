@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../src/index.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;AAAA,2CAAyB;AACzB,2CAAyB;AACzB,+CAA+B;AAC/B,+CAA+B;AAC/B,6CAA6B","sourcesContent":["export * from './ffmpeg';\nexport * from './volume';\nexport * as opus from './opus';\nexport * as webm from './webm';\nexport * as ogg from './ogg';\n"]}
