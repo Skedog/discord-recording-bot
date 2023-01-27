@@ -13,13 +13,13 @@ module.exports = {
 		if (currentVoiceChannel) {
 
 			// Stop the current write stream to close the file
-			util.writeStream.destroy();
+			await util.writeStream.destroy();
 
 			// We are leaving the channel, no need for the timeoutTimer now
 			await util.stopTimeoutTimer();
 
 			// Leave the current voice channel
-			currentVoiceChannel.destroy();
+			await currentVoiceChannel.destroy();
 			log.info('Stopped Recording');
 
 			// Prevent double `reply` calls if auto-stopping recording
