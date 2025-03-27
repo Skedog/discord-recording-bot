@@ -16,6 +16,11 @@ async function createNewRecording() {
 	return module.exports.writeStream = fs.createWriteStream(pathToFile);
 };
 
+function getUserVolume(userID) {
+    const user = config.userSpecificVolumeAdjustments.find(u => u.userID === userID);
+    return user ? user.volume : 100;
+}
+
 function getNewFileName() {
 	const today = new Date();
 	const dd = String(today.getDate()).padStart(2, '0');
@@ -31,7 +36,11 @@ function getNewFileName() {
 async function convertFile(input, output, callback) {
 	const fileToConvert = path.join(__dirname, 'recordings') + '/' + input;
 	const fileToMake = path.join(__dirname, 'recordings') + '/' + output;
-	await ffmpeg(fileToConvert).inputOptions('-f','s16le','-ar','48000','-ac','2').output(fileToMake).on('end', function() {
+	let volumeToUse = 1;
+	if (config.globalVolume !== 100) {
+		volumeToUse = config.globalVolume / 100;
+	}
+	await ffmpeg(fileToConvert).inputOptions('-f','s16le','-ar','48000','-ac','2').audioFilters('volume=' + volumeToUse).output(fileToMake).on('end', function() {
 		callback(null);
 	}).on('error', function(err){
 		callback(err);
@@ -140,5 +149,6 @@ module.exports = {
 	createGoogleDriveClient,
 	uploadFileToGoogleDrive,
 	getPublicGoogleDriveFileLink,
-	deleteOldRecordings
+	deleteOldRecordings,
+	getUserVolume
 };

@@ -4,6 +4,7 @@ const { joinVoiceChannel, EndBehaviorType } = require('@discordjs/voice');
 const { opus } = require('prism-media');
 const audioMixer = require('audio-mixer');
 const util = require('../util.js');
+const config = require('../config.js');
 
 module.exports = {
 	data: new SlashCommandBuilder().setName('record').setDescription('Start a recording!').addChannelOption(option =>
@@ -60,7 +61,7 @@ module.exports = {
 				// create a new `mixer input` for this new user audioStream
 				let input = mixer.input({
 					channels: 2,
-					volume: 100,
+					volume: util.getUserVolume(userId), //will return 100 if not defined in config
 					sampleRate: 48000,
 					bitDepth: 16,
 					clearInterval: 250
