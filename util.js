@@ -4,6 +4,7 @@ const log = require('npmlog');
 const _ = require('underscore');
 var ffmpeg = require('fluent-ffmpeg');
 const {google} = require('googleapis');
+const {PutObjectCommand, S3Client } = require('@aws-sdk/client-s3');
 const config = require('./config.js');
 let timeoutTimer = null;
 
@@ -126,6 +127,38 @@ async function getPublicGoogleDriveFileLink(driveClient, fileID) {
 	}
 }
 
+async function createS3Client() {
+	log.info('Creating S3 client');
+	const client = new S3Client({
+		endpoint: config.S3Endpoint,
+		region: config.S3Region,
+		credentials: {
+			accessKeyId: config.S3AccessKey,
+			secretAccessKey: config.S3SecretKey
+		}
+	});
+	return client;
+}
+
+async function uploadFileToS3(client, fileName) {
+
+	const command = new PutObjectCommand({
+		Bucket: config.S3BucketName,
+		Key: fileName,
+		Body: await fs.createReadStream('recordings/' + fileName),
+		ContentType: 'audio/mpeg'
+	});
+
+	try {
+		log.info('Starting upload to S3');
+		const response = await client.send(command);
+		log.info('Finished uploading to S3 Bucket');
+		return response;
+	} catch (error) {
+		log.error(error);
+	}
+}
+
 async function deleteOldRecordings() {
 	if (config.autoDeleteRecordingsAfterUpload) {
 		// Clear the files in the recordings folder
@@ -150,5 +183,7 @@ module.exports = {
 	uploadFileToGoogleDrive,
 	getPublicGoogleDriveFileLink,
 	deleteOldRecordings,
-	getUserVolume
+	getUserVolume,
+	createS3Client,
+	uploadFileToS3
 };

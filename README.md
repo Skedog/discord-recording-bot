@@ -37,7 +37,8 @@ A self-hosted Discord bot that uses slash commands to record voice chats!
   * Scroll down and copy the `Generated URL` and then open that in your browser to add your newly created bot to your Discord server
 
 ### Start the bot
-  * Run `node app.js`
+  * Run `npm i` to install all required packages
+  * Run `node app.js` to start the bot
 
 ### Config Options
 * **discordAPIKey** <string> // This is your `Client Secret` from the Discord Developer Site
@@ -47,6 +48,12 @@ A self-hosted Discord bot that uses slash commands to record voice chats!
 * **autoDeleteRecordingsAfterUpload** <bool> // Should the locally stored recordings be deleted automatically after upload
 * **globalVolume** <number> // Can increase or decrease this to adjust the entire recording volume, defaults to 100
 * **userSpecificVolumeAdjustments** <array> // Can adjust volume level for individual users if they are too loud/quiet
+* **useS3Bucket** <bool> // Should the bot attempt to upload to an S3 Bucket
+* **S3Endpoint** <string> // S3 Bucket endpoint, such as `https://s3.wasabisys.com`
+* **S3Region**  <string> // S3 Bucket region, such as `us-east-1`
+* **S3BucketName** <string> // S3 Bucket name, such as `recordings`
+* **S3AccessKey** <string> // S3 Bucket Access Key
+* **S3SecretKey** <string> // S3 Bucket Secret Key
 * **useGoogleDrive** <bool> // Should the bot attempt to upload to Google Drive instead of uploading the recording to the Discord Channel
 * **googleDriveClientID** <string> // ClientID for Google Drive application
 * **googleDriveClientSecret** <string> // Client Secret for Google Drive application

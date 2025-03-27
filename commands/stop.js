@@ -61,6 +61,10 @@ module.exports = {
 
 						// Send the final embed with the recording link
 						interaction.channel.send({embeds: [newFileEmbed]});
+					} else if(config.useS3Bucket) {
+						const S3Client = await util.createS3Client();
+						await util.uploadFileToS3(S3Client, convertedFileName);
+						interaction.channel.send({content: 'New recording uploaded successfully to S3 Bucket!'});
 					} else {
 						// By default, bots are limited to 8mb file uploads
 						interaction.channel.send({content: 'New recording available!', files: ['./recordings/' + mostRecentRecording.replace(/\.[^/.]+$/, "") + '.mp3'] });
